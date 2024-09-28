@@ -1,20 +1,69 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import ListMapsScreen from "./src/screens/ListMapsScreen";
+import CreateMapsScreen from "./src/screens/CreateMapsScreen";
+import AccountScreen from "./src/screens/AccountScreen";
+import Entypo from "@expo/vector-icons/Entypo";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused }) => {
+            return route.name === "ListMapsScreen" ? (
+              <Entypo
+                name="map"
+                size={25}
+                color={focused ? "tomato" : "black"}
+              />
+            ) : route.name === "CreateMapsScreen" ? (
+              <FontAwesome6
+                name="add"
+                size={25}
+                color={focused ? "tomato" : "black"}
+              />
+            ) : (
+              <MaterialCommunityIcons
+                name="account"
+                size={25}
+                color={focused ? "tomato" : "black"}
+              />
+            );
+          },
+          tabBarActiveTintColor: "tomato", // Label color when active
+          tabBarInactiveTintColor: "black", // Label color when inactive
+        })}
+      >
+        <Tab.Screen
+          name="ListMapsScreen"
+          component={ListMapsScreen}
+          options={{
+            tabBarLabel: "My maps",
+            headerShown: false,
+          }}
+        />
+        <Tab.Screen
+          name="CreateMapsScreen"
+          component={CreateMapsScreen}
+          options={{
+            tabBarLabel: "Add",
+            headerShown: false,
+          }}
+        />
+        <Tab.Screen
+          name="AccountScreen"
+          component={AccountScreen}
+          options={{
+            tabBarLabel: "Account",
+            headerShown: false,
+          }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
