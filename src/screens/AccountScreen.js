@@ -1,14 +1,26 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
+import { useTheme, Text } from "react-native-paper";
+import ScreenLayout from "../components/ui/ScreenLayout";
+import DividerWithSpacer from "../components/ui/DividerWithSpacer";
 
 const AccountScreen = () => {
+  const { colors } = useTheme(); // Get the colors from the theme
   return (
-    <>
-      <Text>AccountScreen</Text>
-    </>
+    <ScreenLayout>
+      <Text variant="displaySmall" style={{ color: colors.text }}>
+        Manage your account
+      </Text>
+      <DividerWithSpacer />
+    </ScreenLayout>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  screenTitle: {
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+});
 
 export default AccountScreen;

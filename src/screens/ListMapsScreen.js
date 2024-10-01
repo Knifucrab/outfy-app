@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
-import { Text, Searchbar } from "react-native-paper";
+import { Text, Searchbar, useTheme } from "react-native-paper";
 import ScreenLayout from "../components/ui/ScreenLayout";
+import DividerWithSpacer from "../components/ui/DividerWithSpacer";
 
 const ListMapsScreen = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const { colors } = useTheme(); // Get the colors from the theme
   return (
     <ScreenLayout>
-      <Text>ListMapsScreen</Text>
+      <Text variant="displaySmall" style={{ color: colors.text }}>
+        ListMapsScreen
+      </Text>
+
+      <DividerWithSpacer />
       <Searchbar
-      placeholder="Search here your mindmaps"
-      onChang
+        placeholder="Search here your mindmaps"
+        onChangeText={(text) => setSearchQuery(text)}
+        value={searchQuery}
       />
     </ScreenLayout>
   );
