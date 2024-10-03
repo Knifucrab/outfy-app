@@ -7,6 +7,7 @@ import { StyleSheet } from "react-native";
 import DraggableNode from "../components/DraggableNode";
 import { useNavigation } from "@react-navigation/native";
 import { updateNodePosition } from "../store/mindmapReducer"; // Adjust path as necessary
+import ModifyNodeBar from "../components/ModifyNodeBar";
 
 const CreatingMapScreen = () => {
   const navigation = useNavigation();
@@ -14,8 +15,8 @@ const CreatingMapScreen = () => {
   const dispatch = useDispatch();
   const nodes = useSelector((state) => state.mindmap.nodes); // Get nodes from Redux
 
-  const handleDragEnd = () => {
-    console.log("funciono");
+  const handleDragEnd = (newPosition) => {
+    dispatch(updateNodePosition(newPosition));
   };
 
   useEffect(() => {
@@ -48,12 +49,21 @@ const CreatingMapScreen = () => {
   }, [navigation]);
 
   return (
-    <GestureHandlerRootView style={styles.canvas}>
+    <GestureHandlerRootView
+      style={[styles.canvas, { backgroundColor: colors.background }]}
+    >
       {nodes ? (
-        nodes.map((node) => <DraggableNode key={node.id} node={node} />)
+        nodes.map((node) => (
+          <DraggableNode
+            key={node.id}
+            node={node}
+            handleDragEnd={handleDragEnd}
+          />
+        ))
       ) : (
         <Text>No nodes avaible</Text>
       )}
+      <ModifyNodeBar />
     </GestureHandlerRootView>
   );
 };
@@ -61,7 +71,6 @@ const CreatingMapScreen = () => {
 const styles = StyleSheet.create({
   canvas: {
     flex: 1,
-    backgroundColor: "#f0f0f0",
   },
 });
 

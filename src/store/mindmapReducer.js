@@ -2,7 +2,11 @@
 
 // Initial state for the reducer
 const initialState = {
-  nodes: [{ id: 1, title: "Node 1", pos_x: 50, pos_y: 50 }],
+  nodes: [
+    { id: 1, title: "Matematica", pos_x: 0, pos_y: 0 },
+    { id: 2, title: "Programar", pos_x: 100, pos_y: 100 },
+    { id: 3, title: "Gimnasio", pos_x: 150, pos_y: 150 },
+  ],
 };
 
 // Action types
@@ -26,7 +30,6 @@ export function mindmapReducer(state = initialState, action) {
       };
 
     case UPDATE_NODE_POSITION:
-      console.log("starting update_node_position in reducer");
       const { id, pos_x, pos_y } = action.payload;
 
       return {

@@ -4,7 +4,6 @@ import { useTheme, Text } from "react-native-paper";
 import ScreenLayout from "../components/ui/ScreenLayout";
 import DividerWithSpacer from "../components/ui/DividerWithSpacer";
 import ButtonCreateMindmap from "../components/ButtonCreateMindmap";
-import { updateNodePosition } from "../store/mindmapReducer"; // Adjust path as necessary
 import { useDispatch } from "react-redux";
 
 const CreateMapsScreen = ({ navigation }) => {

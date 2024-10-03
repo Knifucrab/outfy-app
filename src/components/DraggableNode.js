@@ -1,5 +1,6 @@
 // DraggableNode.js
-import React from "react";
+import React, { useEffect } from "react";
+import { useTheme } from "react-native-paper";
 import { Text, StyleSheet } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -9,29 +10,29 @@ import Animated, {
 } from "react-native-reanimated";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 
-const DraggableNode = ({ node }) => {
+const DraggableNode = ({ node, handleDragEnd }) => {
+  const { colors } = useTheme(); // Get the colors from the theme
   const isPressed = useSharedValue(false);
-  const offset = useSharedValue({ x: 0, y: 0 });
-
-  const testToConsole = () => {
-    console.log("funcionooo");
-  };
+  const offset = useSharedValue({ x: node.pos_x, y: node.pos_y });
 
   const start = useSharedValue({ x: node.pos_x, y: node.pos_y });
+
+  //useEffect to change the value of start if node.pos_x or node.pos_y change his value
+  useEffect(() => {
+    start.value = { x: node.pos_x, y: node.pos_y };
+  }, [node.pos_x, node.pos_y]); // Dependency on node position
+
   const gesture = Gesture.Pan()
     .onBegin(() => {
-      console.log("Gesture Begin");
       isPressed.value = true;
     })
     .onUpdate((e) => {
-      console.log("Gesture Update", offset.value.x, offset.value.y);
       offset.value = {
         x: e.translationX + start.value.x,
         y: e.translationY + start.value.y,
       };
     })
     .onEnd(() => {
-      console.log("Gesture End");
       start.value = {
         x: offset.value.x,
         y: offset.value.y,
@@ -41,7 +42,7 @@ const DraggableNode = ({ node }) => {
         pos_x: offset.value.x,
         pos_y: offset.value.y,
       };
-      runOnJS(testToConsole)();
+      runOnJS(handleDragEnd)(newPosition);
     })
     .onFinalize(() => {
       isPressed.value = false;
@@ -53,16 +54,23 @@ const DraggableNode = ({ node }) => {
       transform: [
         { translateX: offset.value.x },
         { translateY: offset.value.y },
-        { scale: withSpring(isPressed.value ? 1.2 : 1) },
+        { scale: withSpring(isPressed.value ? 1.04 : 1) },
       ],
-      backgroundColor: isPressed.value ? "yellow" : "blue",
     };
   });
 
   return (
     <GestureDetector gesture={gesture}>
-      <Animated.View style={[styles.ball, animatedStyles]}>
-        <Text>{node.title}</Text>
+      <Animated.View
+        style={[
+          styles.ball,
+          animatedStyles,
+          { backgroundColor: colors.onBackground },
+        ]}
+      >
+        <Text style={{ color: colors.background, fontSize: 25 }}>
+          {node.title}
+        </Text>
       </Animated.View>
     </GestureDetector>
   );
@@ -70,11 +78,13 @@ const DraggableNode = ({ node }) => {
 
 const styles = StyleSheet.create({
   ball: {
-    width: 100,
-    height: 100,
-    borderRadius: 100,
-    backgroundColor: "blue",
+    width: 150,
+    height: 80,
+    borderRadius: 15,
     alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
   },
 });
 
