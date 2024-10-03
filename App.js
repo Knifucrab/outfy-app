@@ -3,12 +3,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useColorScheme } from "react-native";
 import { PaperProvider, DefaultTheme } from "react-native-paper";
 import ListMapsScreen from "./src/screens/ListMapsScreen";
-import CreateMapsScreen from "./src/screens/CreateMapsScreen";
 import AccountScreen from "./src/screens/AccountScreen";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import CreatingMapScreen from "./src/screens/CreatingMapScreen";
+import { Provider } from "react-redux";
+import { store } from "./src/store/store";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import CreateMapsFlow from "./src/navigation/CreateMapsFlow";
 
 const materialTheme = require("./material-theme.json");
 const { schemes } = materialTheme;
@@ -142,84 +144,81 @@ export default function App() {
   const customTheme = colorScheme === "dark" ? darkTheme : darkTheme;
 
   return (
-    <PaperProvider theme={customTheme}>
-      <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused }) => {
-              return route.name === "ListMapsScreen" ? (
-                <Entypo
-                  name="map"
-                  size={25}
-                  color={
-                    focused
-                      ? customTheme.colors.primary
-                      : customTheme.colors.text
-                  }
-                />
-              ) : route.name === "CreateMapsScreen" ? (
-                <FontAwesome6
-                  name="add"
-                  size={25}
-                  color={
-                    focused
-                      ? customTheme.colors.primary
-                      : customTheme.colors.text
-                  }
-                />
-              ) : (
-                <MaterialCommunityIcons
-                  name="account"
-                  size={25}
-                  color={
-                    focused
-                      ? customTheme.colors.primary
-                      : customTheme.colors.text
-                  }
-                />
-              );
-            },
-            tabBarActiveTintColor: customTheme.colors.primary, // Label color when active
-            tabBarInactiveTintColor: customTheme.colors.text, // Label color when inactive
-            tabBarStyle: {
-              backgroundColor: customTheme.colors.surface,
-            },
-          })}
-        >
-          <Tab.Screen
-            name="ListMapsScreen"
-            component={ListMapsScreen}
-            options={{
-              tabBarLabel: "My maps",
-              headerShown: false,
-            }}
-          />
-          <Tab.Screen
-            name="CreatingMapScreen"
-            component={CreatingMapScreen}
-            options={{
-              tabBarLabel: "Creating",
-              headerShown: false,
-            }}
-          />
-          <Tab.Screen
-            name="CreateMapsScreen"
-            component={CreateMapsScreen}
-            options={{
-              tabBarLabel: "Add",
-              headerShown: false,
-            }}
-          />
-          <Tab.Screen
-            name="AccountScreen"
-            component={AccountScreen}
-            options={{
-              tabBarLabel: "Account",
-              headerShown: false,
-            }}
-          />
-        </Tab.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Provider store={store}>
+        <PaperProvider theme={customTheme}>
+          <NavigationContainer>
+            <Tab.Navigator
+              screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused }) => {
+                  return route.name === "ListMapsScreen" ? (
+                    <Entypo
+                      name="map"
+                      size={25}
+                      color={
+                        focused
+                          ? customTheme.colors.primary
+                          : customTheme.colors.text
+                      }
+                    />
+                  ) : route.name === "CreateMapsScreen" ? (
+                    <FontAwesome6
+                      name="add"
+                      size={25}
+                      color={
+                        focused
+                          ? customTheme.colors.primary
+                          : customTheme.colors.text
+                      }
+                    />
+                  ) : (
+                    <MaterialCommunityIcons
+                      name="account"
+                      size={25}
+                      color={
+                        focused
+                          ? customTheme.colors.primary
+                          : customTheme.colors.text
+                      }
+                    />
+                  );
+                },
+                tabBarActiveTintColor: customTheme.colors.primary, // Label color when active
+                tabBarInactiveTintColor: customTheme.colors.text, // Label color when inactive
+                tabBarStyle: {
+                  backgroundColor: customTheme.colors.surface,
+                },
+              })}
+            >
+              <Tab.Screen
+                name="ListMapsScreen"
+                component={ListMapsScreen}
+                options={{
+                  tabBarLabel: "My maps",
+                  headerShown: false,
+                }}
+              />
+
+              <Tab.Screen
+                name="CreateMapsFlow"
+                component={CreateMapsFlow}
+                options={{
+                  tabBarLabel: "Add",
+                  headerShown: false,
+                }}
+              />
+              <Tab.Screen
+                name="AccountScreen"
+                component={AccountScreen}
+                options={{
+                  tabBarLabel: "Account",
+                  headerShown: false,
+                }}
+              />
+            </Tab.Navigator>
+          </NavigationContainer>
+        </PaperProvider>
+      </Provider>
+    </GestureHandlerRootView>
   );
 }

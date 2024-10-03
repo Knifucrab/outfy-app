@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Text, Searchbar, useTheme } from "react-native-paper";
 import ScreenLayout from "../components/ui/ScreenLayout";
 import DividerWithSpacer from "../components/ui/DividerWithSpacer";

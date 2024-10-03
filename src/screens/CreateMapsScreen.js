@@ -4,13 +4,17 @@ import { useTheme, Text } from "react-native-paper";
 import ScreenLayout from "../components/ui/ScreenLayout";
 import DividerWithSpacer from "../components/ui/DividerWithSpacer";
 import ButtonCreateMindmap from "../components/ButtonCreateMindmap";
+import { updateNodePosition } from "../store/mindmapReducer"; // Adjust path as necessary
+import { useDispatch } from "react-redux";
 
-const CreateMapsScreen = () => {
+const CreateMapsScreen = ({ navigation }) => {
   const { colors } = useTheme(); // Get the colors from the theme
+  const dispatch = useDispatch();
 
-  const consoleTest = () => {
-    return console.log("test");
+  const handleUpdatePosition = (newPosition) => {
+    dispatch({ type: "UPDATE_NODE_POSITION", payload: newPosition });
   };
+
   return (
     <ScreenLayout>
       <Text variant="displaySmall" style={{ color: colors.text }}>
@@ -23,13 +27,12 @@ const CreateMapsScreen = () => {
           textLine1="Create mindmap"
           iconName="vector-square-plus"
           iconSize={60}
-          onPress={consoleTest}
+          onPress={() => navigation.navigate("CreatingMapScreen")}
         />
         <ButtonCreateMindmap
           textLine1="Select template"
           iconName="file-tree"
           iconSize={60}
-          onPress={consoleTest}
         />
       </View>
     </ScreenLayout>
