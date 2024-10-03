@@ -161,7 +161,7 @@ export default function App() {
                           : customTheme.colors.text
                       }
                     />
-                  ) : route.name === "CreateMapsScreen" ? (
+                  ) : route.name === "CreateMapsFlow" ? (
                     <FontAwesome6
                       name="add"
                       size={25}
