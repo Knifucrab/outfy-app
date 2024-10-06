@@ -11,7 +11,7 @@ import Animated, {
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import NodeMenu from "./NodeMenu";
 
-const DraggableNode = ({ node, handleDragEnd }) => {
+const DraggableNode = ({ node, handleDragEnd, isMenuOpen, onNodePress }) => {
   const { colors } = useTheme(); // Get the colors from the theme
   const isPressed = useSharedValue(false);
   const offset = useSharedValue({ x: node.pos_x, y: node.pos_y });
@@ -59,19 +59,14 @@ const DraggableNode = ({ node, handleDragEnd }) => {
     };
   });
 
-  // Menu logic
-  const [menuVisible, setMenuVisible] = useState(false);
-  const [anchor, setAnchor] = useState(null);
-
-  const openMenu = (event) => {
-    setAnchor({ x: offset.value.x, y: offset.value.y });
-    setMenuVisible(true);
-  };
-  const closeMenu = () => setMenuVisible(false);
-
   return (
     <PaperProvider>
-      <NodeMenu visible={menuVisible} closeMenu={closeMenu} anchor={anchor} />
+      <NodeMenu
+        visible={isMenuOpen}
+        closeMenu={() => onNodePress(null)}
+        anchor={{ y: offset.value.y, x: offset.value.x }}
+        node={node}
+      />
       <GestureDetector gesture={gesture}>
         <Animated.View
           style={[
@@ -79,7 +74,7 @@ const DraggableNode = ({ node, handleDragEnd }) => {
             animatedStyles,
             { backgroundColor: colors.onBackground },
           ]}
-          onTouchEnd={openMenu}
+          onTouchEnd={() => onNodePress(node.id)}
         >
           <Text style={{ color: colors.background, fontSize: 25 }}>
             {node.title}

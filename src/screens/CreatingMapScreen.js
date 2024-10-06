@@ -1,5 +1,5 @@
 // CreatingMapScreen.js
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useTheme } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -21,6 +21,12 @@ const CreatingMapScreen = () => {
 
   const handleAddNode = (node) => {
     dispatch(addNode(node));
+  };
+
+  const [openMenuNodeId, setOpenMenuNodeId] = useState(null);
+
+  const handleNodePress = (nodeId) => {
+    setOpenMenuNodeId(openMenuNodeId === nodeId ? null : nodeId); // Close if same node is clicked
   };
 
   useEffect(() => {
@@ -62,6 +68,8 @@ const CreatingMapScreen = () => {
             key={node.id}
             node={node}
             handleDragEnd={handleDragEnd}
+            isMenuOpen={openMenuNodeId === node.id}
+            onNodePress={handleNodePress}
           />
         ))
       ) : (
