@@ -6,7 +6,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { StyleSheet } from "react-native";
 import DraggableNode from "../components/DraggableNode";
 import { useNavigation } from "@react-navigation/native";
-import { updateNodePosition } from "../store/mindmapReducer"; // Adjust path as necessary
+import { addNode, updateNodePosition } from "../store/mindmapReducer"; // Adjust path as necessary
 import ModifyNodeBar from "../components/ModifyNodeBar";
 
 const CreatingMapScreen = () => {
@@ -17,6 +17,10 @@ const CreatingMapScreen = () => {
 
   const handleDragEnd = (newPosition) => {
     dispatch(updateNodePosition(newPosition));
+  };
+
+  const handleAddNode = (node) => {
+    dispatch(addNode(node));
   };
 
   useEffect(() => {
@@ -63,7 +67,7 @@ const CreatingMapScreen = () => {
       ) : (
         <Text>No nodes avaible</Text>
       )}
-      <ModifyNodeBar />
+      <ModifyNodeBar handleAddNode={handleAddNode} />
     </GestureHandlerRootView>
   );
 };

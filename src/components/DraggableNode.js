@@ -1,7 +1,7 @@
 // DraggableNode.js
-import React, { useEffect } from "react";
-import { useTheme } from "react-native-paper";
-import { Text, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { useTheme, PaperProvider } from "react-native-paper";
+import { Text, StyleSheet, TouchableOpacity } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -9,12 +9,12 @@ import Animated, {
   runOnJS,
 } from "react-native-reanimated";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
+import NodeMenu from "./NodeMenu";
 
 const DraggableNode = ({ node, handleDragEnd }) => {
   const { colors } = useTheme(); // Get the colors from the theme
   const isPressed = useSharedValue(false);
   const offset = useSharedValue({ x: node.pos_x, y: node.pos_y });
-
   const start = useSharedValue({ x: node.pos_x, y: node.pos_y });
 
   //useEffect to change the value of start if node.pos_x or node.pos_y change his value
@@ -59,20 +59,39 @@ const DraggableNode = ({ node, handleDragEnd }) => {
     };
   });
 
+  // Menu logic
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [anchor, setAnchor] = useState(null);
+
+  const openMenu = (event) => {
+    setAnchor({ x: offset.value.x, y: offset.value.y });
+    setMenuVisible(true);
+  };
+  const closeMenu = () => setMenuVisible(false);
+
   return (
-    <GestureDetector gesture={gesture}>
-      <Animated.View
-        style={[
-          styles.ball,
-          animatedStyles,
-          { backgroundColor: colors.onBackground },
-        ]}
-      >
-        <Text style={{ color: colors.background, fontSize: 25 }}>
-          {node.title}
-        </Text>
-      </Animated.View>
-    </GestureDetector>
+    <PaperProvider>
+      <NodeMenu visible={menuVisible} closeMenu={closeMenu} anchor={anchor} />
+      <GestureDetector gesture={gesture}>
+        <Animated.View
+          style={[
+            styles.ball,
+            animatedStyles,
+            { backgroundColor: colors.onBackground },
+          ]}
+          onTouchEnd={openMenu}
+        >
+          <Text style={{ color: colors.background, fontSize: 25 }}>
+            {node.title}
+          </Text>
+          <Text style={{ color: colors.background, fontSize: 15 }}>
+            {node.id}
+          </Text>
+        </Animated.View>
+      </GestureDetector>
+
+      {/* Menu */}
+    </PaperProvider>
   );
 };
 

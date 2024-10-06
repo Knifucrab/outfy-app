@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { useTheme, IconButton, MD3Colors } from "react-native-paper";
 
-const ModifyNodeBar = () => {
+const ModifyNodeBar = ({ handleAddNode }) => {
   const { colors } = useTheme(); // Get the colors from the theme
 
   return (
@@ -10,20 +10,22 @@ const ModifyNodeBar = () => {
       style={[styles.container, { backgroundColor: colors.primaryContainer }]}
     >
       <IconButton
-        icon="camera"
+        icon="text"
         iconColor={colors.onPrimaryContainer}
         size={28}
         onPress={() => console.log("Pressed")}
       />
       <IconButton
-        icon="camera"
+        icon="plus"
         iconColor={colors.onPrimaryContainer}
         size={28}
-        onPress={() => console.log("Pressed")}
+        onPress={() =>
+          handleAddNode({ id: 4, title: "", pos_x: 50, pos_y: 50 })
+        }
       />
 
       <IconButton
-        icon="camera"
+        icon="image"
         iconColor={colors.onPrimaryContainer}
         size={28}
         onPress={() => console.log("Pressed")}
