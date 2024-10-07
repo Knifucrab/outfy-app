@@ -4,8 +4,8 @@
 const initialState = {
   nodes: [
     { id: 1, title: "Matematica", pos_x: 0, pos_y: 0 },
-    { id: 2, title: "Programar", pos_x: 100, pos_y: 100 },
-    { id: 3, title: "Gimnasio", pos_x: 150, pos_y: 150 },
+    { id: 2, title: "Programar", pos_x: 10, pos_y: 10 },
+    { id: 3, title: "Gimnasio1", pos_x: 20, pos_y: 100 },
   ],
 };
 

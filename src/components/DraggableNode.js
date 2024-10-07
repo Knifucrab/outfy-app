@@ -1,7 +1,7 @@
 // DraggableNode.js
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useTheme, PaperProvider } from "react-native-paper";
-import { Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, StyleSheet, findNodeHandle, UIManager } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -11,11 +11,44 @@ import Animated, {
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import NodeMenu from "./NodeMenu";
 
-const DraggableNode = ({ node, handleDragEnd, isMenuOpen, onNodePress }) => {
+const DraggableNode = ({
+  node,
+  handleDragEnd,
+  isMenuOpen,
+  onNodePress,
+  scale,
+  translateX,
+  translateY,
+}) => {
   const { colors } = useTheme(); // Get the colors from the theme
   const isPressed = useSharedValue(false);
   const offset = useSharedValue({ x: node.pos_x, y: node.pos_y });
   const start = useSharedValue({ x: node.pos_x, y: node.pos_y });
+
+  const nodeRef = useRef(null); // Reference to the node's view
+
+  // Anchor state to track menu position
+  const [anchorPosition, setAnchorPosition] = useState({
+    x: node.pos_x,
+    y: node.pos_y,
+  });
+  // Update the anchor position using measure
+  const updateAnchorPosition = () => {
+    const nodeHandle = findNodeHandle(nodeRef.current);
+    if (nodeHandle) {
+      UIManager.measure(nodeHandle, (x, y, width, height, pageX, pageY) => {
+        // Adjust anchor position based on canvas transformations
+        const adjustedX = (pageX - translateX) / scale;
+        const adjustedY = (pageY - translateY) / scale;
+        setAnchorPosition({ x: adjustedX, y: adjustedY });
+      });
+    }
+  };
+
+  // Use useEffect to trigger updateAnchorPosition when node moves
+  useEffect(() => {
+    updateAnchorPosition();
+  }, [offset.value.x, offset.value.y, scale, translateX, translateY]);
 
   //useEffect to change the value of start if node.pos_x or node.pos_y change his value
   useEffect(() => {
@@ -43,6 +76,7 @@ const DraggableNode = ({ node, handleDragEnd, isMenuOpen, onNodePress }) => {
         pos_y: offset.value.y,
       };
       runOnJS(handleDragEnd)(newPosition);
+      runOnJS(updateAnchorPosition)();
     })
     .onFinalize(() => {
       isPressed.value = false;
@@ -59,14 +93,34 @@ const DraggableNode = ({ node, handleDragEnd, isMenuOpen, onNodePress }) => {
     };
   });
 
+  // Update anchorPosition when node's coordinates change
+  useEffect(() => {
+    if (offset.value.x !== 0 || offset.value.y !== 0) {
+      setAnchorPosition({ x: offset.value.x, y: offset.value.y });
+    }
+  }, [offset.value.x, offset.value.y]);
+
+  // Only pass valid coordinates to NodeMenu
+  const validAnchor = anchorPosition.x !== 0 || anchorPosition.y !== 0;
+
+  useEffect(() => {
+    if (node.id === 3) {
+      console.log(`Posicion del nodo segun redux: `, node.pos_x, node.pos_y);
+
+      console.log(`Posicion segun component: `, offset.value.x, offset.value.y);
+    }
+  }, [anchorPosition]);
+
   return (
     <PaperProvider>
-      <NodeMenu
-        visible={isMenuOpen}
-        closeMenu={() => onNodePress(null)}
-        anchor={{ y: offset.value.y, x: offset.value.x }}
-        node={node}
-      />
+      {validAnchor && (
+        <NodeMenu
+          visible={isMenuOpen}
+          closeMenu={() => onNodePress(null)}
+          anchor={anchorPosition}
+          node={node}
+        />
+      )}
       <GestureDetector gesture={gesture}>
         <Animated.View
           style={[
@@ -74,7 +128,9 @@ const DraggableNode = ({ node, handleDragEnd, isMenuOpen, onNodePress }) => {
             animatedStyles,
             { backgroundColor: colors.onBackground },
           ]}
-          onTouchEnd={() => onNodePress(node.id)}
+          onTouchEnd={() => {
+            onNodePress(node.id);
+          }}
         >
           <Text style={{ color: colors.background, fontSize: 25 }}>
             {node.title}
@@ -84,8 +140,6 @@ const DraggableNode = ({ node, handleDragEnd, isMenuOpen, onNodePress }) => {
           </Text>
         </Animated.View>
       </GestureDetector>
-
-      {/* Menu */}
     </PaperProvider>
   );
 };
