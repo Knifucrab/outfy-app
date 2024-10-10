@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { useColorScheme } from "react-native";
 import { PaperProvider, DefaultTheme } from "react-native-paper";
-import ListMapsScreen from "./src/screens/ListMapsScreen";
+import HomeScreen from "./src/screens/HomeScreen";
 import AccountScreen from "./src/screens/AccountScreen";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
@@ -10,7 +10,8 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Provider } from "react-redux";
 import { store } from "./src/store/store";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import CreateMapsFlow from "./src/navigation/CreateMapsFlow";
+import CreatePostFlow from "./src/navigation/CreatePostFlow";
+import ChatScreen from "./src/screens/ChatScreen";
 
 const materialTheme = require("./material-theme.json");
 const { schemes } = materialTheme;
@@ -151,9 +152,9 @@ export default function App() {
             <Tab.Navigator
               screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused }) => {
-                  return route.name === "ListMapsScreen" ? (
+                  return route.name === "HomeScreen" ? (
                     <Entypo
-                      name="map"
+                      name="home"
                       size={25}
                       color={
                         focused
@@ -161,9 +162,19 @@ export default function App() {
                           : customTheme.colors.text
                       }
                     />
-                  ) : route.name === "CreateMapsFlow" ? (
+                  ) : route.name === "CreatePostFlow" ? (
                     <FontAwesome6
                       name="add"
+                      size={25}
+                      color={
+                        focused
+                          ? customTheme.colors.primary
+                          : customTheme.colors.text
+                      }
+                    />
+                  ) : route.name === "ChatScreen" ? (
+                    <Entypo
+                      name="chat"
                       size={25}
                       color={
                         focused
@@ -191,19 +202,18 @@ export default function App() {
               })}
             >
               <Tab.Screen
-                name="ListMapsScreen"
-                component={ListMapsScreen}
+                name="HomeScreen"
+                component={HomeScreen}
                 options={{
-                  tabBarLabel: "My maps",
+                  tabBarLabel: "Home",
                   headerShown: false,
                 }}
               />
-
               <Tab.Screen
-                name="CreateMapsFlow"
-                component={CreateMapsFlow}
+                name="ChatScreen"
+                component={ChatScreen}
                 options={{
-                  tabBarLabel: "Add",
+                  tabBarLabel: "Chats",
                   headerShown: false,
                 }}
               />
@@ -212,6 +222,15 @@ export default function App() {
                 component={AccountScreen}
                 options={{
                   tabBarLabel: "Account",
+                  headerShown: false,
+                }}
+              />
+
+              <Tab.Screen
+                name="CreatePostFlow"
+                component={CreatePostFlow}
+                options={{
+                  tabBarLabel: "Create post",
                   headerShown: false,
                 }}
               />
