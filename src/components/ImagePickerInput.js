@@ -1,11 +1,9 @@
-import { useState } from "react";
 import { Image, View, StyleSheet, TouchableOpacity } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { useTheme, Text } from "react-native-paper";
+import { useTheme, Text, IconButton } from "react-native-paper";
 import Entypo from "@expo/vector-icons/Entypo";
 
-export default function ImagePickerInput() {
-  const [image, setImage] = useState(null); // Correct useState syntax
+export default function ImagePickerInput({ image, onImageSelect }) {
   const { colors } = useTheme(); // Get the colors from the theme
 
   const pickImage = async () => {
@@ -20,34 +18,51 @@ export default function ImagePickerInput() {
     console.log(result);
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      onImageSelect(result.assets[0].uri);
     }
   };
 
   return (
     <View style={[styles.container]}>
-      <TouchableOpacity
-        style={[
-          styles.button,
-          {
-            borderColor: colors.primary,
-            backgroundColor: colors.primaryContainer,
-          },
-        ]}
-        onPress={pickImage}
-      >
-        <Entypo name="images" size={80} color={colors.onPrimaryContainer} />
-        <Text
-          style={{
-            color: colors.onPrimaryContainer,
-            textAlign: "center",
-            marginTop: 15,
-          }}
+      {image === null ? (
+        <TouchableOpacity
+          style={[
+            styles.button,
+            {
+              borderColor: colors.primary,
+              backgroundColor: colors.primaryContainer,
+            },
+          ]}
+          onPress={pickImage}
         >
-          Select an image from your gallery or take a photo.
-        </Text>
-      </TouchableOpacity>
-      {image && <Image source={{ uri: image }} style={styles.image} />}
+          <Entypo name="images" size={80} color={colors.onPrimaryContainer} />
+          <Text
+            style={{
+              color: colors.onPrimaryContainer,
+              textAlign: "center",
+              marginTop: 15,
+            }}
+          >
+            Select an image from your gallery or take a photo.
+          </Text>
+        </TouchableOpacity>
+      ) : (
+        <View>
+          <Image source={{ uri: image }} style={styles.image} />
+          <IconButton
+            containerColor={colors.onPrimary}
+            icon="pencil"
+            iconColor={colors.primary}
+            size={20}
+            onPress={pickImage}
+            style={{
+              position: "absolute",
+              bottom: 1,
+              left: 150,
+            }}
+          />
+        </View>
+      )}
     </View>
   );
 }
@@ -69,11 +84,6 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 200,
-    height: 200,
-  },
-
-  tinyLogo: {
-    width: 150,
-    height: 150,
+    height: 300,
   },
 });
