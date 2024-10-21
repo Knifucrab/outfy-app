@@ -142,7 +142,7 @@ export default function App() {
   };
 
   console.log(colorScheme);
-  const customTheme = colorScheme === "dark" ? darkTheme : darkTheme;
+  const customTheme = colorScheme === "dark" ? darkTheme : lightTheme;
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

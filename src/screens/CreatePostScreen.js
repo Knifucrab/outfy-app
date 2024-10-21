@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView, FlatList } from "react-native";
 import {
   useTheme,
   Text,
@@ -9,6 +9,8 @@ import {
   Modal,
   Button,
   Dialog,
+  Chip,
+  Icon,
 } from "react-native-paper";
 import ScreenLayout from "../components/ui/ScreenLayout";
 import { useDispatch } from "react-redux";
@@ -87,7 +89,6 @@ const CreatePostScreen = ({ navigation }) => {
             Create new post
           </Text>
           {/* Form */}
-
           <Text
             variant="titleMedium"
             style={[styles.formSubtitle, { color: colors.text }]}
@@ -103,12 +104,51 @@ const CreatePostScreen = ({ navigation }) => {
               >
                 Clothes (optional)
               </Text>
-              <IconButton
-                icon="plus-box"
-                iconColor={colors.primary}
-                size={20}
-                onPress={showModal}
-              />
+              <View style={{ flexDirection: "row" }}>
+                <IconButton
+                  icon="plus-box"
+                  iconColor={colors.primary}
+                  size={20}
+                  onPress={showModal}
+                  style={{ margin: 0 }}
+                />
+
+                <FlatList
+                  horizontal
+                  showsHorizontalScrollIndicator={true}
+                  data={clothes}
+                  keyExtractor={(item, index) =>
+                    `${item.brand}-${item.category}-${index}`
+                  }
+                  renderItem={({ item }) => (
+                    <Chip
+                      style={{
+                        backgroundColor: colors.primary,
+                        marginRight: 8,
+                      }}
+                      icon={() => (
+                        <Icon
+                          source={
+                            {
+                              "T-Shirt": "tshirt-crew-outline",
+                              Glasses: "glasses",
+                              Cap: "hat-fedora",
+                              Hoodie: "tshirt-crew",
+                              Necklace: "necklace",
+                            }[item.category] || "information"
+                          }
+                          color={colors.onPrimary}
+                          size={20}
+                        />
+                      )}
+                    >
+                      <Text style={{ color: colors.onPrimary }}>
+                        {item.name}
+                      </Text>
+                    </Chip>
+                  )}
+                />
+              </View>
             </View>
           ) : null}
 
