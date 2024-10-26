@@ -31,8 +31,11 @@ yarn-error.*
 # local env files
 .env*.local
 
-#firebase config
-firebaseConfig.js
+# Ignore environment variables
+.env
+
+# Ignore app.json to prevent committing sensitive information
+app.json
 
 # typescript
 *.tsbuildinfo
