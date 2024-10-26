@@ -15,10 +15,8 @@ export default function ImagePickerInput({ image, onImageSelect }) {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.canceled) {
-      onImageSelect(result.assets[0].uri);
+      onImageSelect(result);
     }
   };
 
@@ -48,7 +46,7 @@ export default function ImagePickerInput({ image, onImageSelect }) {
         </TouchableOpacity>
       ) : (
         <View>
-          <Image source={{ uri: image }} style={styles.image} />
+          <Image source={{ uri: image.assets[0].uri }} style={styles.image} />
           <IconButton
             containerColor={colors.onPrimary}
             icon="pencil"

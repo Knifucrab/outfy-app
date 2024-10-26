@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import ImagePickerInput from "../components/ImagePickerInput";
 import Spacer from "../components/ui/Spacer";
 import ClothesForm from "../components/ClothesForm";
+import { uploadImage } from "../services/uploadImage";
 
 const CreatePostScreen = ({ navigation }) => {
   const { colors } = useTheme(); // Get the colors from the theme
@@ -38,24 +39,37 @@ const CreatePostScreen = ({ navigation }) => {
   const showDialog = () => setVisibleDialog(true);
   const hideDialog = () => setVisibleDialog(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!title || !description || !image) {
       showDialog();
       return;
     }
 
-    // dispatch({
-    //   type: "CREATE_POST",
-    //   payload: { title, description, image, clothes },
-    // });
+    try {
+      const imageUrl = await uploadImage(image);
 
-    // Optionally, reset form fields after submission
-    setTitle("");
-    setDescription("");
-    setImage(null);
+      // show error if fails
+      if (!imageUrl) {
+        console.error("Image upload failed");
+        return;
+      }
+
+      console.log(imageUrl);
+
+      // dispatch({
+      //   type: "CREATE_POST",
+      //   payload: { title, description, image, clothes },
+      // });
+
+      // Optionally, reset form fields after submission
+      // setTitle("");
+      // setDescription("");
+      // setImage(null);
+      // setClothes([]);
+    } catch (error) {
+      console.error("Error submitting post:", error);
+    }
   };
-
-  console.log(clothes);
 
   return (
     <>
