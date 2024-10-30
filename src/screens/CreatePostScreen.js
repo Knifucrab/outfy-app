@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { StyleSheet, View, ScrollView, FlatList } from "react-native";
+import React, {useState} from "react";
+import {StyleSheet, View, ScrollView, FlatList} from "react-native";
 import {
   useTheme,
   Text,
@@ -13,14 +13,14 @@ import {
   Icon,
 } from "react-native-paper";
 import ScreenLayout from "../components/ui/ScreenLayout";
-import { useDispatch } from "react-redux";
+import {useDispatch} from "react-redux";
 import ImagePickerInput from "../components/ImagePickerInput";
 import Spacer from "../components/ui/Spacer";
 import ClothesForm from "../components/ClothesForm";
-import { uploadImage } from "../services/uploadImage";
+import {uploadImage} from "../services/uploadImage";
 
-const CreatePostScreen = ({ navigation }) => {
-  const { colors } = useTheme(); // Get the colors from the theme
+const CreatePostScreen = ({navigation}) => {
+  const {colors} = useTheme(); // Get the colors from the theme
   const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
@@ -32,7 +32,7 @@ const CreatePostScreen = ({ navigation }) => {
   const [visible, setVisible] = useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-  const containerStyle = { backgroundColor: colors.background, padding: 20 };
+  const containerStyle = {backgroundColor: colors.background, padding: 20};
 
   //Dialog submit
   const [visibleDialog, setVisibleDialog] = useState(false);
@@ -55,6 +55,7 @@ const CreatePostScreen = ({ navigation }) => {
       }
 
       console.log(imageUrl);
+      console.log(clothes);
 
       // dispatch({
       //   type: "CREATE_POST",
@@ -81,7 +82,7 @@ const CreatePostScreen = ({ navigation }) => {
         >
           <Text
             variant="titleLarge"
-            style={{ color: colors.text, marginBottom: 15 }}
+            style={{color: colors.text, marginBottom: 15}}
           >
             ¿What are you wearing?
           </Text>
@@ -97,7 +98,7 @@ const CreatePostScreen = ({ navigation }) => {
           {/* Title */}
           <Text
             variant="headlineMedium"
-            style={[styles.formTitle, { color: colors.text }]}
+            style={[styles.formTitle, {color: colors.text}]}
           >
             {" "}
             Create new post
@@ -105,7 +106,7 @@ const CreatePostScreen = ({ navigation }) => {
           {/* Form */}
           <Text
             variant="titleMedium"
-            style={[styles.formSubtitle, { color: colors.text }]}
+            style={[styles.formSubtitle, {color: colors.text}]}
           >
             Add photo of your outfit
           </Text>
@@ -114,17 +115,17 @@ const CreatePostScreen = ({ navigation }) => {
             <View>
               <Text
                 variant="titleSmall"
-                style={[styles.formSubtitle, { color: colors.text }]}
+                style={[styles.formSubtitle, {color: colors.text}]}
               >
                 Clothes (optional)
               </Text>
-              <View style={{ flexDirection: "row" }}>
+              <View style={{flexDirection: "row"}}>
                 <IconButton
                   icon="plus-box"
                   iconColor={colors.primary}
                   size={20}
                   onPress={showModal}
-                  style={{ margin: 0 }}
+                  style={{margin: 0}}
                 />
 
                 <FlatList
@@ -134,7 +135,7 @@ const CreatePostScreen = ({ navigation }) => {
                   keyExtractor={(item, index) =>
                     `${item.brand}-${item.category}-${index}`
                   }
-                  renderItem={({ item }) => (
+                  renderItem={({item}) => (
                     <Chip
                       style={{
                         backgroundColor: colors.primary,
@@ -156,9 +157,7 @@ const CreatePostScreen = ({ navigation }) => {
                         />
                       )}
                     >
-                      <Text style={{ color: colors.onPrimary }}>
-                        {item.name}
-                      </Text>
+                      <Text style={{color: colors.onPrimary}}>{item.name}</Text>
                     </Chip>
                   )}
                 />
@@ -217,7 +216,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 20,
   },
-  formTitle: { fontWeight: "bold" },
+  formTitle: {fontWeight: "bold"},
   formSubtitle: {
     paddingBottom: 10,
     paddingTop: 18,
