@@ -17,7 +17,7 @@ import {useDispatch} from "react-redux";
 import ImagePickerInput from "../components/ImagePickerInput";
 import Spacer from "../components/ui/Spacer";
 import ClothesForm from "../components/ClothesForm";
-import {uploadImage} from "../services/uploadImage";
+import {uploadImage} from "../api/uploadImage";
 
 const CreatePostScreen = ({navigation}) => {
   const {colors} = useTheme(); // Get the colors from the theme

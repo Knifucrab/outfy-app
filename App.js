@@ -1,10 +1,10 @@
 import React from "react";
 import {Provider as PaperProvider, DefaultTheme} from "react-native-paper";
-import {Provider} from "react-redux";
-import {GestureHandlerRootView} from "react-native-gesture-handler";
+import {Provider as ReduxProvider} from "react-redux";
 import {useColorScheme} from "react-native";
 import store from "./src/store/store";
 import AppNavigator from "./src/navigation/AppNavigator";
+import {AuthProvider} from "./src/context/AuthContext";
 const materialTheme = require("./material-theme.json");
 const {schemes} = materialTheme;
 
@@ -127,12 +127,12 @@ export default function App() {
   const customTheme = colorScheme === "dark" ? darkTheme : lightTheme;
 
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      <Provider store={store}>
+    <AuthProvider>
+      <ReduxProvider store={store}>
         <PaperProvider theme={customTheme}>
           <AppNavigator customTheme={customTheme} />
         </PaperProvider>
-      </Provider>
-    </GestureHandlerRootView>
+      </ReduxProvider>
+    </AuthProvider>
   );
 }

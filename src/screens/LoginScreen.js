@@ -1,22 +1,72 @@
-import React from "react";
+import React, {useState} from "react";
 import {View, StyleSheet} from "react-native";
-import {useTheme, Text, Button} from "react-native-paper";
+import {useTheme, Text, Button, TextInput} from "react-native-paper";
 import ScreenLayout from "../components/ui/ScreenLayout";
 import DividerWithSpacer from "../components/ui/DividerWithSpacer";
 import {useNavigation} from "@react-navigation/native";
+import {useAuth} from "../context/AuthContext";
 
 const LoginScreen = () => {
   const {colors} = useTheme(); // Get the colors from the theme
   const navigation = useNavigation();
+  const {login} = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async () => {
+    setLoading(true);
+    try {
+      const success = await login(email, password);
+      if (success) {
+        navigation.navigate("MainFlow");
+      }
+    } catch (error) {
+      console.error("Login failed", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <ScreenLayout>
-      <Text variant="displaySmall" style={{color: colors.text}}>
-        LogIn
-      </Text>
+      <View
+        style={{justifyContent: "flex-end", alignItems: "center", height: 150}}
+      >
+        <Text
+          variant="headlineMedium"
+          style={[{color: colors.text}, styles.formTitle]}
+        >
+          Login
+        </Text>
+        <Text variant="titleMedium" style={[{color: colors.text}]}>
+          Enter your account
+        </Text>
+      </View>
+      <View
+        style={{
+          // borderWidth: 1,
+          // borderColor: "red",
+          height: 220,
+          justifyContent: "space-around",
+        }}
+      >
+        <TextInput
+          label="Email"
+          value={email}
+          onChangeText={(email) => setEmail(email)}
+          style={{height: 65, borderCurve: 10}}
+        />
+        <TextInput
+          label="Password"
+          value={password}
+          onChangeText={(password) => setPassword(password)}
+          style={{height: 65, borderCurve: 10}}
+        />
+      </View>
       <DividerWithSpacer />
-      <Button mode="contained" onPress={() => navigation.navigate("MainFlow")}>
-        Move to MainFlow
+      <Button mode="contained" onPress={handleLogin} loading={loading}>
+        Login
       </Button>
     </ScreenLayout>
   );
@@ -27,6 +77,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
   },
+  formTitle: {fontWeight: "bold"},
 });
 
 export default LoginScreen;

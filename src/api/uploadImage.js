@@ -1,6 +1,6 @@
 // CreatePostScreen.js
-import { storage } from "../../firebaseConfig";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {storage} from "../../firebaseConfig";
+import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
 
 export const uploadImage = async (imageObj) => {
   if (!imageObj || !imageObj.assets || imageObj.assets.length === 0) {

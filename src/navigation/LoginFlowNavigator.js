@@ -8,8 +8,22 @@ const Stack = createStackNavigator();
 const LoginFlowNavigator = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Signup" component={SignupScreen} />
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{
+          tabBarLabel: "Home",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Signup"
+        component={SignupScreen}
+        options={{
+          tabBarLabel: "Home",
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 };

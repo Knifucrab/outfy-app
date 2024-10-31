@@ -1,9 +1,9 @@
 import {configureStore} from "@reduxjs/toolkit";
-import {postReducer} from "./postReducer";
+import userReducer from "../reducers/userReducer";
 
 export const store = configureStore({
   reducer: {
-    mindmap: postReducer, // register the reducer
+    user: userReducer,
   },
 });
 
