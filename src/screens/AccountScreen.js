@@ -5,12 +5,14 @@ import ScreenLayout from "../components/ui/ScreenLayout";
 import DividerWithSpacer from "../components/ui/DividerWithSpacer";
 import {useNavigation} from "@react-navigation/native";
 import {useAuth} from "../context/AuthContext";
+import {useDispatch, useSelector} from "react-redux";
 
 const AccountScreen = () => {
   const [loading, setLoading] = useState(null);
   const {colors} = useTheme(); // Get the colors from the theme
   const navigation = useNavigation(); // To navigate to the mainFlow
   const {logout} = useAuth();
+  const user = useSelector((state) => state.user.user);
 
   const handleLogout = async () => {
     setLoading(true);
@@ -27,6 +29,7 @@ const AccountScreen = () => {
       <Text variant="displaySmall" style={{color: colors.text}}>
         Manage your account
       </Text>
+      <Text>{user.username}</Text>
       <Button mode="contained" onPress={handleLogout} loading={loading}>
         Log out
       </Button>

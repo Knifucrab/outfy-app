@@ -127,12 +127,12 @@ export default function App() {
   const customTheme = colorScheme === "dark" ? darkTheme : lightTheme;
 
   return (
-    <AuthProvider>
-      <ReduxProvider store={store}>
+    <ReduxProvider store={store}>
+      <AuthProvider>
         <PaperProvider theme={customTheme}>
           <AppNavigator customTheme={customTheme} />
         </PaperProvider>
-      </ReduxProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </ReduxProvider>
   );
 }
