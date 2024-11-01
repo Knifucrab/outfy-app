@@ -1,15 +1,23 @@
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet, View } from "react-native";
+import { useTheme } from "react-native-paper";
 
 const ScreenLayout = ({ children }) => {
-  return <SafeAreaView style={styles.container}>{children}</SafeAreaView>;
+  const { colors } = useTheme(); // Get the colors from the theme
+  return (
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: colors.background }]}
+    >
+      {children}
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 15,
+    padding: 15,
   },
 });
 

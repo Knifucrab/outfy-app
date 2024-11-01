@@ -1,69 +1,138 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
-import ListMapsScreen from "./src/screens/ListMapsScreen";
-import CreateMapsScreen from "./src/screens/CreateMapsScreen";
-import AccountScreen from "./src/screens/AccountScreen";
-import Entypo from "@expo/vector-icons/Entypo";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-
-const Tab = createBottomTabNavigator();
+import React from "react";
+import {Provider as PaperProvider, DefaultTheme} from "react-native-paper";
+import {Provider as ReduxProvider} from "react-redux";
+import {useColorScheme} from "react-native";
+import store from "./src/store/store";
+import AppNavigator from "./src/navigation/AppNavigator";
+import {AuthProvider} from "./src/context/AuthContext";
+const materialTheme = require("./material-theme.json");
+const {schemes} = materialTheme;
 
 export default function App() {
+  const colorScheme = useColorScheme();
+
+  const lightScheme = schemes.light;
+  const darkScheme = schemes.dark;
+
+  const lightTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: lightScheme.primary,
+      background: lightScheme.background,
+      surface: lightScheme.surface,
+      accent: lightScheme.secondary,
+      text: lightScheme.onSurface,
+      error: lightScheme.error,
+      surfaceTint: lightScheme.surfaceTint,
+      onPrimary: lightScheme.onPrimary,
+      primaryContainer: lightScheme.primaryContainer,
+      onPrimaryContainer: lightScheme.onPrimaryContainer,
+      onSecondary: lightScheme.onSecondary,
+      secondaryContainer: lightScheme.secondaryContainer,
+      onSecondaryContainer: lightScheme.onSecondaryContainer,
+      onTertiary: lightScheme.onTertiary,
+      tertiaryContainer: lightScheme.tertiaryContainer,
+      onTertiaryContainer: lightScheme.onTertiaryContainer,
+      onError: lightScheme.onError,
+      errorContainer: lightScheme.errorContainer,
+      onErrorContainer: lightScheme.onErrorContainer,
+      onBackground: lightScheme.onBackground,
+      surfaceVariant: lightScheme.surfaceVariant,
+      onSurfaceVariant: lightScheme.onSurfaceVariant,
+      outline: lightScheme.outline,
+      outlineVariant: lightScheme.outlineVariant,
+      shadow: lightScheme.shadow,
+      scrim: lightScheme.scrim,
+      inverseSurface: lightScheme.inverseSurface,
+      inverseOnSurface: lightScheme.inverseOnSurface,
+      inversePrimary: lightScheme.inversePrimary,
+      primaryFixed: lightScheme.primaryFixed,
+      onPrimaryFixed: lightScheme.onPrimaryFixed,
+      primaryFixedDim: lightScheme.primaryFixedDim,
+      onPrimaryFixedVariant: lightScheme.onPrimaryFixedVariant,
+      secondaryFixed: lightScheme.secondaryFixed,
+      onSecondaryFixed: lightScheme.onSecondaryFixed,
+      secondaryFixedDim: lightScheme.secondaryFixedDim,
+      onSecondaryFixedVariant: lightScheme.onSecondaryFixedVariant,
+      tertiaryFixed: lightScheme.tertiaryFixed,
+      onTertiaryFixed: lightScheme.onTertiaryFixed,
+      tertiaryFixedDim: lightScheme.tertiaryFixedDim,
+      onTertiaryFixedVariant: lightScheme.onTertiaryFixedVariant,
+      surfaceDim: lightScheme.surfaceDim,
+      surfaceBright: lightScheme.surfaceBright,
+      surfaceContainerLowest: lightScheme.surfaceContainerLowest,
+      surfaceContainerLow: lightScheme.surfaceContainerLow,
+      surfaceContainer: lightScheme.surfaceContainer,
+      surfaceContainerHigh: lightScheme.surfaceContainerHigh,
+      surfaceContainerHighest: lightScheme.surfaceContainerHighest,
+    },
+  };
+
+  const darkTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: darkScheme.primary,
+      background: darkScheme.background,
+      surface: darkScheme.surface,
+      accent: darkScheme.secondary,
+      text: darkScheme.onSurface,
+      error: darkScheme.error,
+      surfaceTint: darkScheme.surfaceTint,
+      onPrimary: darkScheme.onPrimary,
+      primaryContainer: darkScheme.primaryContainer,
+      onPrimaryContainer: darkScheme.onPrimaryContainer,
+      onSecondary: darkScheme.onSecondary,
+      secondaryContainer: darkScheme.secondaryContainer,
+      onSecondaryContainer: darkScheme.onSecondaryContainer,
+      onTertiary: darkScheme.onTertiary,
+      tertiaryContainer: darkScheme.tertiaryContainer,
+      onTertiaryContainer: darkScheme.onTertiaryContainer,
+      onError: darkScheme.onError,
+      errorContainer: darkScheme.errorContainer,
+      onErrorContainer: darkScheme.onErrorContainer,
+      onBackground: darkScheme.onBackground,
+      surfaceVariant: darkScheme.surfaceVariant,
+      onSurfaceVariant: darkScheme.onSurfaceVariant,
+      outline: darkScheme.outline,
+      outlineVariant: darkScheme.outlineVariant,
+      shadow: darkScheme.shadow,
+      scrim: darkScheme.scrim,
+      inverseSurface: darkScheme.inverseSurface,
+      inverseOnSurface: darkScheme.inverseOnSurface,
+      inversePrimary: darkScheme.inversePrimary,
+      primaryFixed: darkScheme.primaryFixed,
+      onPrimaryFixed: darkScheme.onPrimaryFixed,
+      primaryFixedDim: darkScheme.primaryFixedDim,
+      onPrimaryFixedVariant: darkScheme.onPrimaryFixedVariant,
+      secondaryFixed: darkScheme.secondaryFixed,
+      onSecondaryFixed: darkScheme.onSecondaryFixed,
+      secondaryFixedDim: darkScheme.secondaryFixedDim,
+      onSecondaryFixedVariant: darkScheme.onSecondaryFixedVariant,
+      tertiaryFixed: darkScheme.tertiaryFixed,
+      onTertiaryFixed: darkScheme.onTertiaryFixed,
+      tertiaryFixedDim: darkScheme.tertiaryFixedDim,
+      onTertiaryFixedVariant: darkScheme.onTertiaryFixedVariant,
+      surfaceDim: darkScheme.surfaceDim,
+      surfaceBright: darkScheme.surfaceBright,
+      surfaceContainerLowest: darkScheme.surfaceContainerLowest,
+      surfaceContainerLow: darkScheme.surfaceContainerLow,
+      surfaceContainer: darkScheme.surfaceContainer,
+      surfaceContainerHigh: darkScheme.surfaceContainerHigh,
+      surfaceContainerHighest: darkScheme.surfaceContainerHighest,
+    },
+  };
+
+  const customTheme = colorScheme === "dark" ? darkTheme : lightTheme;
+
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused }) => {
-            return route.name === "ListMapsScreen" ? (
-              <Entypo
-                name="map"
-                size={25}
-                color={focused ? "tomato" : "black"}
-              />
-            ) : route.name === "CreateMapsScreen" ? (
-              <FontAwesome6
-                name="add"
-                size={25}
-                color={focused ? "tomato" : "black"}
-              />
-            ) : (
-              <MaterialCommunityIcons
-                name="account"
-                size={25}
-                color={focused ? "tomato" : "black"}
-              />
-            );
-          },
-          tabBarActiveTintColor: "tomato", // Label color when active
-          tabBarInactiveTintColor: "black", // Label color when inactive
-        })}
-      >
-        <Tab.Screen
-          name="ListMapsScreen"
-          component={ListMapsScreen}
-          options={{
-            tabBarLabel: "My maps",
-            headerShown: false,
-          }}
-        />
-        <Tab.Screen
-          name="CreateMapsScreen"
-          component={CreateMapsScreen}
-          options={{
-            tabBarLabel: "Add",
-            headerShown: false,
-          }}
-        />
-        <Tab.Screen
-          name="AccountScreen"
-          component={AccountScreen}
-          options={{
-            tabBarLabel: "Account",
-            headerShown: false,
-          }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <AuthProvider>
+      <ReduxProvider store={store}>
+        <PaperProvider theme={customTheme}>
+          <AppNavigator customTheme={customTheme} />
+        </PaperProvider>
+      </ReduxProvider>
+    </AuthProvider>
   );
 }
