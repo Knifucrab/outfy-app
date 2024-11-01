@@ -1,8 +1,12 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Constants from "expo-constants";
+
+// Ensure correct access to the extra field
+const {BASE_URL} = Constants.expoConfig.extra;
 
 const instance = axios.create({
-  baseURL: "https://outfy-api.vercel.app",
+  baseURL: BASE_URL,
 });
 
 instance.interceptors.request.use(

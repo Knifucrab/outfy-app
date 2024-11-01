@@ -17,7 +17,7 @@ export const AuthProvider = ({children}) => {
       const response = await outfyApi.post("/auth/login", {email, password});
 
       const {token} = response.data;
-      console.log(token);
+
       await AsyncStorage.setItem("token", token);
 
       setUserState({token});
@@ -41,7 +41,7 @@ export const AuthProvider = ({children}) => {
 
   const tryLocalLogin = async () => {
     setLoading(true);
-    console.log("Trying local signin");
+
     const token = await AsyncStorage.getItem("token");
     if (token) {
       console.log(token);
