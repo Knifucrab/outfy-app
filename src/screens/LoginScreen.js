@@ -5,6 +5,7 @@ import ScreenLayout from "../components/ui/ScreenLayout";
 import DividerWithSpacer from "../components/ui/DividerWithSpacer";
 import {useNavigation} from "@react-navigation/native";
 import {useAuth} from "../context/AuthContext";
+import Constants from "expo-constants"; // to show the app version
 
 const LoginScreen = () => {
   const {colors} = useTheme(); // Get the colors from the theme
@@ -64,10 +65,15 @@ const LoginScreen = () => {
           style={{height: 65, borderCurve: 10}}
         />
       </View>
-      <DividerWithSpacer />
       <Button mode="contained" onPress={handleLogin} loading={loading}>
         Login
       </Button>
+      <DividerWithSpacer />
+      <View style={{alignItems: "center"}}>
+        <Text style={{marginTop: 10, color: colors.text}}>
+          Version: {Constants.expoConfig.version}
+        </Text>
+      </View>
     </ScreenLayout>
   );
 };

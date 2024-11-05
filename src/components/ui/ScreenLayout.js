@@ -1,15 +1,17 @@
 import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { StyleSheet, View } from "react-native";
-import { useTheme } from "react-native-paper";
+import {SafeAreaView} from "react-native-safe-area-context";
+import {StyleSheet, ScrollView} from "react-native";
+import {useTheme} from "react-native-paper";
 
-const ScreenLayout = ({ children }) => {
-  const { colors } = useTheme(); // Get the colors from the theme
+const ScreenLayout = ({children}) => {
+  const {colors} = useTheme(); // Get the colors from the theme
   return (
     <SafeAreaView
-      style={[styles.container, { backgroundColor: colors.background }]}
+      style={[styles.container, {backgroundColor: colors.background}]}
     >
-      {children}
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        {children}
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -17,7 +19,9 @@ const ScreenLayout = ({ children }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 15,
+  },
+  scrollContainer: {
+    padding: 30,
   },
 });
 

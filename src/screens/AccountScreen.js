@@ -1,16 +1,20 @@
 import React, {useState} from "react";
-import {View, StyleSheet} from "react-native";
-import {useTheme, Text, Button} from "react-native-paper";
+import {View, StyleSheet, Image} from "react-native";
+import {useTheme, Text, Button, Avatar, Card, Icon} from "react-native-paper";
 import ScreenLayout from "../components/ui/ScreenLayout";
 import DividerWithSpacer from "../components/ui/DividerWithSpacer";
 import {useNavigation} from "@react-navigation/native";
 import {useAuth} from "../context/AuthContext";
+import {useDispatch, useSelector} from "react-redux";
+import {format} from "date-fns";
+import UserProfileInformation from "../components/userProfileInformation";
+import ProfileCard from "../components/ProfileCard";
 
 const AccountScreen = () => {
   const [loading, setLoading] = useState(null);
-  const {colors} = useTheme(); // Get the colors from the theme
   const navigation = useNavigation(); // To navigate to the mainFlow
   const {logout} = useAuth();
+  const user = useSelector((state) => state.user.user);
 
   const handleLogout = async () => {
     setLoading(true);
@@ -22,24 +26,35 @@ const AccountScreen = () => {
     }
   };
 
+  const formattedBirthDate = format(new Date(user.birthDate), "MMMM d, yyyy");
+
   return (
     <ScreenLayout>
-      <Text variant="displaySmall" style={{color: colors.text}}>
-        Manage your account
-      </Text>
-      <Button mode="contained" onPress={handleLogout} loading={loading}>
+      <ProfileCard
+        profilePicture={user.profilePicture}
+        email={user.email}
+        fullName="Mauro Bringas"
+        posts="10"
+        likes="150"
+        comments="30"
+      />
+      <UserProfileInformation
+        username={user.username}
+        email="maurosbringas@gmail.com"
+        formattedBirthDate={formattedBirthDate}
+      />
+      <Button
+        mode="contained"
+        onPress={handleLogout}
+        loading={loading}
+        style={{marginTop: 50}}
+      >
         Log out
       </Button>
-      <DividerWithSpacer />
     </ScreenLayout>
   );
 };
 
-const styles = StyleSheet.create({
-  screenTitle: {
-    fontSize: 30,
-    fontWeight: "bold",
-  },
-});
+const styles = StyleSheet.create({});
 
 export default AccountScreen;

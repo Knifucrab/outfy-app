@@ -94,132 +94,123 @@ const CreatePostScreen = ({navigation}) => {
         </Modal>
       </Portal>
       <ScreenLayout>
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-          {/* Title */}
-          <Text
-            variant="headlineMedium"
-            style={[styles.formTitle, {color: colors.text}]}
-          >
-            {" "}
-            Create new post
-          </Text>
-          {/* Form */}
-          <Text
-            variant="titleMedium"
-            style={[styles.formSubtitle, {color: colors.text}]}
-          >
-            Add photo of your outfit
-          </Text>
-          <ImagePickerInput image={image} onImageSelect={setImage} />
-          {image != null ? (
-            <View>
-              <Text
-                variant="titleSmall"
-                style={[styles.formSubtitle, {color: colors.text}]}
-              >
-                Clothes (optional)
-              </Text>
-              <View style={{flexDirection: "row"}}>
-                <IconButton
-                  icon="plus-box"
-                  iconColor={colors.primary}
-                  size={20}
-                  onPress={showModal}
-                  style={{margin: 0}}
-                />
-
-                <FlatList
-                  horizontal
-                  showsHorizontalScrollIndicator={true}
-                  data={clothes}
-                  keyExtractor={(item, index) =>
-                    `${item.brand}-${item.category}-${index}`
-                  }
-                  renderItem={({item}) => (
-                    <Chip
-                      style={{
-                        backgroundColor: colors.primary,
-                        marginRight: 8,
-                      }}
-                      icon={() => (
-                        <Icon
-                          source={
-                            {
-                              "T-Shirt": "tshirt-crew-outline",
-                              Glasses: "glasses",
-                              Cap: "hat-fedora",
-                              Hoodie: "tshirt-crew",
-                              Necklace: "necklace",
-                            }[item.category] || "information"
-                          }
-                          color={colors.onPrimary}
-                          size={20}
-                        />
-                      )}
-                    >
-                      <Text style={{color: colors.onPrimary}}>{item.name}</Text>
-                    </Chip>
-                  )}
-                />
-              </View>
-            </View>
-          ) : null}
-
-          <Spacer />
-          <TextInput
-            textColor={colors.text}
-            label="Title"
-            value={title}
-            onChangeText={(title) => setTitle(title)}
-            mode="outlined"
-          />
-          <Spacer />
-          <TextInput
-            numberOfLines={3}
-            multiline={true}
-            textColor={colors.text}
-            label="Description"
-            value={description}
-            onChangeText={(description) => setDescription(description)}
-            mode="outlined"
-          />
-          <Spacer />
+        {/* Title */}
+        <Text variant="titleLarge" style={{color: colors.text}}>
+          {" "}
+          Create new post
+        </Text>
+        {/* Form */}
+        <Text
+          variant="titleMedium"
+          style={[styles.formSubtitle, {color: colors.text}]}
+        >
+          Add photo of your outfit
+        </Text>
+        <ImagePickerInput image={image} onImageSelect={setImage} />
+        {image != null ? (
           <View>
-            <Button mode="outlined" onPress={handleSubmit}>
-              Submit
-            </Button>
-            <Portal>
-              <Dialog visible={visibleDialog} onDismiss={hideDialog}>
-                <Dialog.Title>Fill all the inputs</Dialog.Title>
-                <Dialog.Content>
-                  <Text variant="bodyMedium">This is simple dialog</Text>
-                </Dialog.Content>
-                <Dialog.Actions>
-                  <Button onPress={hideDialog}>Done</Button>
-                </Dialog.Actions>
-              </Dialog>
-            </Portal>
+            <Text
+              variant="titleSmall"
+              style={[styles.formSubtitle, {color: colors.text}]}
+            >
+              Clothes (optional)
+            </Text>
+            <View style={{flexDirection: "row"}}>
+              <IconButton
+                icon="plus-box"
+                iconColor={colors.primary}
+                size={20}
+                onPress={showModal}
+                style={{margin: 0}}
+              />
+
+              <FlatList
+                horizontal
+                showsHorizontalScrollIndicator={true}
+                data={clothes}
+                keyExtractor={(item, index) =>
+                  `${item.brand}-${item.category}-${index}`
+                }
+                renderItem={({item}) => (
+                  <Chip
+                    style={{
+                      backgroundColor: colors.primary,
+                      marginRight: 8,
+                    }}
+                    icon={() => (
+                      <Icon
+                        source={
+                          {
+                            "T-Shirt": "tshirt-crew-outline",
+                            Glasses: "glasses",
+                            Cap: "hat-fedora",
+                            Hoodie: "tshirt-crew",
+                            Necklace: "necklace",
+                          }[item.category] || "information"
+                        }
+                        color={colors.onPrimary}
+                        size={20}
+                      />
+                    )}
+                  >
+                    <Text style={{color: colors.onPrimary}}>{item.name}</Text>
+                  </Chip>
+                )}
+              />
+            </View>
           </View>
-        </ScrollView>
+        ) : null}
+
+        <Spacer />
+        <TextInput
+          textColor={colors.text}
+          label="Title"
+          value={title}
+          onChangeText={(title) => setTitle(title)}
+          mode="outlined"
+        />
+        <Spacer />
+        <TextInput
+          numberOfLines={3}
+          multiline={true}
+          textColor={colors.text}
+          label="Description"
+          value={description}
+          onChangeText={(description) => setDescription(description)}
+          mode="outlined"
+        />
+        <Spacer />
+        <View>
+          <Button mode="outlined" onPress={handleSubmit}>
+            Submit
+          </Button>
+          <Portal>
+            <Dialog visible={visibleDialog} onDismiss={hideDialog}>
+              <Dialog.Title>Fill all the inputs</Dialog.Title>
+              <Dialog.Content>
+                <Text variant="bodyMedium">This is simple dialog</Text>
+              </Dialog.Content>
+              <Dialog.Actions>
+                <Button onPress={hideDialog}>Done</Button>
+              </Dialog.Actions>
+            </Dialog>
+          </Portal>
+        </View>
       </ScreenLayout>
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  formContainer: {
-    paddingVertical: 5,
-    paddingHorizontal: 20,
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    paddingVertical: 5,
-    paddingHorizontal: 20,
-  },
-  formTitle: {fontWeight: "bold"},
   formSubtitle: {
     paddingBottom: 10,
     paddingTop: 18,
+  },
+  container: {
+    flex: 1,
+  },
+  scrollContainer: {
+    padding: 30,
   },
 });
 
