@@ -18,21 +18,16 @@ export const CreatePostProvider = ({children}) => {
       imageUrl: imageUrl,
       clothes: clothes,
     };
-    console.log("Creating post with payload:", payload); // Log the payload
+
     try {
       const response = await outfyApi.post("posts/createPost", payload);
-      console.log("Post created successfully", response.data);
+
       setTitle("");
       setDescription("");
       setClothes([]);
       setImage(null);
     } catch (error) {
-      console.log("Error creating post", error);
-      if (error.response) {
-        console.log("Response data:", error.response.data); // Log the response data
-        console.log("Response status:", error.response.status); // Log the response status
-        console.log("Response headers:", error.response.headers); // Log the response headers
-      }
+      // console.log("Error creating post", error);
     } finally {
       setLoading(false);
     }
