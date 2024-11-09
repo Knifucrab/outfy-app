@@ -57,12 +57,14 @@ const LoginScreen = () => {
           value={email}
           onChangeText={(email) => setEmail(email)}
           style={{height: 65, borderCurve: 10}}
+          textColor={colors.text}
         />
         <TextInput
           label="Password"
           value={password}
           onChangeText={(password) => setPassword(password)}
           style={{height: 65, borderCurve: 10}}
+          textColor={colors.text}
         />
       </View>
       <Button mode="contained" onPress={handleLogin} loading={loading}>

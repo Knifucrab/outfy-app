@@ -1,15 +1,12 @@
 import React, {useState, useEffect} from "react";
 import * as Font from "expo-font";
-import {
-  Provider as PaperProvider,
-  MD3LightTheme,
-  MD3DarkTheme,
-} from "react-native-paper";
+import {Provider as PaperProvider, MD3LightTheme} from "react-native-paper";
 import {Provider as ReduxProvider} from "react-redux";
 import {useColorScheme, View, ActivityIndicator} from "react-native";
 import store from "./src/store/store";
 import AppNavigator from "./src/navigation/AppNavigator";
 import {AuthProvider} from "./src/context/AuthContext";
+import {CreatePostProvider} from "./src/context/CreatePostContext";
 const materialTheme = require("./material-theme.json");
 const {schemes} = materialTheme;
 
@@ -275,9 +272,11 @@ export default function App() {
   return (
     <ReduxProvider store={store}>
       <AuthProvider>
-        <PaperProvider theme={customTheme}>
-          <AppNavigator customTheme={customTheme} />
-        </PaperProvider>
+        <CreatePostProvider>
+          <PaperProvider theme={customTheme}>
+            <AppNavigator customTheme={customTheme} />
+          </PaperProvider>
+        </CreatePostProvider>
       </AuthProvider>
     </ReduxProvider>
   );

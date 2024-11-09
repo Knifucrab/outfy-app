@@ -5,6 +5,7 @@ import LoginFlowNavigator from "./LoginFlowNavigator";
 import MainFlowNavigator from "./MainFlowNavigator";
 import {useAuth} from "../context/AuthContext";
 import {ActivityIndicator, View} from "react-native";
+import {navigationRef} from "./navigationRef";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,7 +21,7 @@ const AppNavigator = ({customTheme}) => {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         {user ? (
           <Stack.Screen name="MainFlow">

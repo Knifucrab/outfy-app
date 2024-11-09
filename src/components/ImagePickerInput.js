@@ -1,10 +1,16 @@
-import { Image, View, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Image,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { useTheme, Text, IconButton } from "react-native-paper";
+import {useTheme, Text, IconButton} from "react-native-paper";
 import Entypo from "@expo/vector-icons/Entypo";
 
-export default function ImagePickerInput({ image, onImageSelect }) {
-  const { colors } = useTheme(); // Get the colors from the theme
+export default function ImagePickerInput({image, onImageSelect, clothes}) {
+  const {colors} = useTheme(); // Get the colors from the theme
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -46,7 +52,29 @@ export default function ImagePickerInput({ image, onImageSelect }) {
         </TouchableOpacity>
       ) : (
         <View>
-          <Image source={{ uri: image.assets[0].uri }} style={styles.image} />
+          <TouchableWithoutFeedback>
+            <Image source={{uri: image.assets[0].uri}} style={styles.image} />
+          </TouchableWithoutFeedback>
+          {clothes.map((cloth, index) => (
+            <View
+              key={index}
+              style={[
+                styles.point,
+                {
+                  left: cloth.x,
+                  top: cloth.y,
+                  backgroundColor: colors.tertiaryContainer,
+                },
+              ]}
+            >
+              <Text
+                variant="bodySmall"
+                style={{color: colors.onTertiaryContainer, fontSize: 10}}
+              >
+                {cloth.brand}
+              </Text>
+            </View>
+          ))}
           <IconButton
             containerColor={colors.onPrimary}
             icon="pencil"
@@ -56,7 +84,7 @@ export default function ImagePickerInput({ image, onImageSelect }) {
             style={{
               position: "absolute",
               bottom: 1,
-              left: 150,
+              left: 200,
             }}
           />
         </View>
@@ -81,7 +109,16 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   image: {
-    width: 200,
-    height: 300,
+    width: 250,
+    height: 450,
+  },
+  point: {
+    position: "absolute",
+    width: 70,
+    height: 20,
+    borderRadius: 10,
+
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
