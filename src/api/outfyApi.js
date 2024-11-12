@@ -14,10 +14,8 @@ instance.interceptors.request.use(
   async (config) => {
     const token = await AsyncStorage.getItem("token");
     if (token) {
-      console.log("token from outfyapi:", token);
       config.headers.Authorization = `Bearer ${token}`;
     } else {
-      console.log("No token found, loggint out...");
       navigate("LoginFlow");
     }
     return config;

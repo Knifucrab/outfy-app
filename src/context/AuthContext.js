@@ -34,7 +34,6 @@ export const AuthProvider = ({children}) => {
 
       return true;
     } catch (error) {
-      console.log(error);
       return false;
     }
   };
@@ -63,7 +62,6 @@ export const AuthProvider = ({children}) => {
         setUserState(userData);
         dispatch(setUser(userData));
       } catch (error) {
-        console.log(error);
         await AsyncStorage.removeItem("token");
         setUserState(null);
       }

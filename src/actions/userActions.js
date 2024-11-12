@@ -6,3 +6,8 @@ export const setUser = (user) => ({
 export const clearUser = () => ({
   type: "CLEAR_USER",
 });
+
+export const setUserPosts = (posts) => ({
+  type: "SET_USER_POSTS",
+  payload: posts,
+});

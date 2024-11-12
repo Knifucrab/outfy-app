@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import {View, StyleSheet, FlatList} from "react-native";
 import {
   useTheme,
@@ -26,11 +26,14 @@ const CreatePostScreen = ({navigation}) => {
     image,
     setImage,
     createPost,
-    loading,
+    loadingPostContext,
   } = useContext(CreatePostContext); // Use context to access state
+  const [disabledSubmit, setDisabledSubmit] = useState(false);
 
   const handleSubmit = async () => {
+    setDisabledSubmit(true);
     if (!title || !description || !image) {
+      setDisabledSubmit(false);
       return;
     }
 
@@ -46,6 +49,8 @@ const CreatePostScreen = ({navigation}) => {
       await createPost(title, description, clothes, imageUrl);
     } catch (error) {
       console.error("Submit failed: ", error);
+    } finally {
+      setDisabledSubmit(false);
     }
   };
 
@@ -141,8 +146,9 @@ const CreatePostScreen = ({navigation}) => {
       <Button
         mode="contained"
         onPress={handleSubmit}
-        style={{marginTop: 50}}
-        loading={loading}
+        style={{marginTop: 10}}
+        loading={loadingPostContext}
+        disabled={disabledSubmit}
       >
         Submit
       </Button>
