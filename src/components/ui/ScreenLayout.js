@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContainer: {
-    paddingHorizontal: 30,
-    paddingBottom: 30,
+    paddingHorizontal: 10,
+    paddingBottom: 15,
   },
 });
 

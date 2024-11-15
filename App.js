@@ -263,7 +263,14 @@ export default function App() {
 
   if (!fontsLoaded) {
     return (
-      <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: customTheme.colors.background,
+        }}
+      >
         <ActivityIndicator size="large" color={customTheme.colors.primary} />
       </View>
     );

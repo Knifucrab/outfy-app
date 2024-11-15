@@ -4,7 +4,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import LoginFlowNavigator from "./LoginFlowNavigator";
 import MainFlowNavigator from "./MainFlowNavigator";
 import {useAuth} from "../context/AuthContext";
-import {ActivityIndicator, View} from "react-native";
+import {ActivityIndicator, View, useTheme} from "react-native";
 import {navigationRef} from "./navigationRef";
 
 const Stack = createNativeStackNavigator();
@@ -14,7 +14,14 @@ const AppNavigator = ({customTheme}) => {
 
   if (loading) {
     return (
-      <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: customTheme.colors.background,
+        }}
+      >
         <ActivityIndicator size="large" color={customTheme.colors.primary} />
       </View>
     );
