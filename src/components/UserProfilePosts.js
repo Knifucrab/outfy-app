@@ -1,9 +1,13 @@
 import React from "react";
-import {View, StyleSheet} from "react-native";
+import {View, StyleSheet, TouchableOpacity} from "react-native";
 import {Text, Card, useTheme, IconButton, Badge} from "react-native-paper";
+import {useNavigation} from "@react-navigation/native";
+import {useSelector} from "react-redux";
 
 const UserProfilePosts = ({posts}) => {
   const {colors} = useTheme();
+  const navigation = useNavigation();
+  const user = useSelector((state) => state.user.user);
 
   if (!posts || !posts.data) {
     return null; // Return null if posts or posts.data is not defined
@@ -18,35 +22,40 @@ const UserProfilePosts = ({posts}) => {
       <View style={styles.postsContainer}>
         {posts.data.map((post) => {
           return (
-            <Card style={{width: 170, marginBottom: 10}} key={post._id}>
-              <View style={{position: "relative"}}>
-                <Card.Cover
-                  source={{uri: post.imageUrl}}
-                  style={styles.image}
-                />
+            <TouchableOpacity
+              onPress={() => navigation.navigate("PostScreen", {post, user})}
+              key={post._id}
+            >
+              <Card style={{width: 170, marginBottom: 10}}>
+                <View style={{position: "relative"}}>
+                  <Card.Cover
+                    source={{uri: post.imageUrl}}
+                    style={styles.image}
+                  />
 
-                <IconButton
-                  icon="tshirt-crew"
-                  iconColor={colors.primary}
-                  mode="contained-tonal"
-                  size={15}
-                  onPress={() => console.log("Pressed")}
-                  style={styles.icon}
-                />
-                <Badge
-                  style={[
-                    styles.badge,
-                    {
-                      color: colors.onPrimaryContainer,
-                      backgroundColor: colors.primaryContainer,
-                    },
-                  ]}
-                  size={16}
-                >
-                  {post.clothes.length}
-                </Badge>
-              </View>
-            </Card>
+                  <IconButton
+                    icon="tshirt-crew"
+                    iconColor={colors.primary}
+                    mode="contained-tonal"
+                    size={15}
+                    // onPress={() => console.log("Pressed")}
+                    style={styles.icon}
+                  />
+                  <Badge
+                    style={[
+                      styles.badge,
+                      {
+                        color: colors.onPrimaryContainer,
+                        backgroundColor: colors.primaryContainer,
+                      },
+                    ]}
+                    size={16}
+                  >
+                    {post.clothes.length}
+                  </Badge>
+                </View>
+              </Card>
+            </TouchableOpacity>
           );
         })}
       </View>

@@ -50,8 +50,8 @@ const AccountScreen = () => {
         comments="30"
       />
       <UserProfileInformation
-        username={user.username}
-        email="maurosbringas@gmail.com"
+        birthDate={user.birthDate}
+        email={user.email}
         formattedBirthDate={formattedBirthDate}
       />
       {loadingPostContext ? (

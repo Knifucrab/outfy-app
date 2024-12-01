@@ -7,6 +7,7 @@ import CreatePostFlow from "../navigation/CreatePostFlow";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import AccountFlow from "./AccountFlow";
 
 const Tab = createBottomTabNavigator();
 
@@ -73,8 +74,8 @@ const MainFlowNavigator = ({customTheme}) => {
         }}
       />
       <Tab.Screen
-        name="AccountScreen"
-        component={AccountScreen}
+        name="AccountFlow"
+        component={AccountFlow}
         options={{
           tabBarLabel: "Account",
           headerShown: false,

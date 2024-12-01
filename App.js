@@ -7,6 +7,7 @@ import store from "./src/store/store";
 import AppNavigator from "./src/navigation/AppNavigator";
 import {AuthProvider} from "./src/context/AuthContext";
 import {CreatePostProvider} from "./src/context/CreatePostContext";
+import {ModifyPostProvider} from "./src/context/ModifyPostContext";
 const materialTheme = require("./material-theme.json");
 const {schemes} = materialTheme;
 
@@ -280,9 +281,11 @@ export default function App() {
     <ReduxProvider store={store}>
       <AuthProvider>
         <CreatePostProvider>
-          <PaperProvider theme={customTheme}>
-            <AppNavigator customTheme={customTheme} />
-          </PaperProvider>
+          <ModifyPostProvider>
+            <PaperProvider theme={customTheme}>
+              <AppNavigator customTheme={customTheme} />
+            </PaperProvider>
+          </ModifyPostProvider>
         </CreatePostProvider>
       </AuthProvider>
     </ReduxProvider>
