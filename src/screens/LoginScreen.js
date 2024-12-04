@@ -14,6 +14,7 @@ const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async () => {
     setLoading(true);
@@ -58,10 +59,19 @@ const LoginScreen = () => {
           onChangeText={(email) => setEmail(email)}
           style={{height: 65, borderCurve: 10}}
           textColor={colors.text}
+          right={<TextInput.Icon icon="email" forceTextInputFocus={false} />}
         />
         <TextInput
           label="Password"
           value={password}
+          secureTextEntry={!showPassword}
+          right={
+            <TextInput.Icon
+              icon="eye"
+              onPress={() => setShowPassword(!showPassword)}
+              forceTextInputFocus={false}
+            />
+          }
           onChangeText={(password) => setPassword(password)}
           style={{height: 65, borderCurve: 10}}
           textColor={colors.text}
