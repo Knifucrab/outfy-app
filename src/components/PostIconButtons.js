@@ -5,18 +5,20 @@ import ModifyPostContext from "../context/ModifyPostContext";
 import {useNavigation} from "@react-navigation/native";
 import {useRoute} from "@react-navigation/native";
 
-const PostIconButtons = ({post, userId, comments}) => {
+const PostIconButtons = ({post, userId, comments, onLike, onUnlike}) => {
   const {colors} = useTheme();
   const route = useRoute();
   const [heartIcon, setHeartIcon] = useState("heart-outline");
-  const {loadingModifyContext, likePost} = useContext(ModifyPostContext);
+
   const navigation = useNavigation();
 
   useEffect(() => {
-    post.likes.map((id) => {
-      id === userId ? setHeartIcon("heart") : setHeartIcon("heart-ouline");
-    });
-  }, [userId]);
+    if (post.likes.includes(userId)) {
+      setHeartIcon("heart");
+    } else {
+      setHeartIcon("heart-outline");
+    }
+  }, [post.likes, userId]);
 
   return (
     <View style={styles.iconsContainer}>
@@ -28,7 +30,7 @@ const PostIconButtons = ({post, userId, comments}) => {
             icon="heart"
             iconColor={colors.primary}
             size={30}
-            onPress={() => console.log("unlike")}
+            onPress={onUnlike}
             style={{margin: 0}}
           />
         ) : (
@@ -36,13 +38,13 @@ const PostIconButtons = ({post, userId, comments}) => {
             icon="heart-outline"
             iconColor={colors.primary}
             size={30}
-            onPress={() => likePost(post._id)}
+            onPress={onLike}
             style={{margin: 0}}
           />
         )}
 
         <Text variant="titleMedium" style={{color: colors.text, marginLeft: 5}}>
-          {post.likes.length}
+          {post.likes ? post.likes.length : null}
         </Text>
       </View>
       <View style={{flexDirection: "row", alignItems: "center"}}>
@@ -54,7 +56,7 @@ const PostIconButtons = ({post, userId, comments}) => {
           onPress={() => navigation.navigate("CommentsScreen", {comments})}
         />
         <Text variant="titleMedium" style={{color: colors.text, marginLeft: 5}}>
-          {post.comments.length}
+          {post.comments ? post.comments.length : null}
         </Text>
       </View>
     </View>

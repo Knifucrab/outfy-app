@@ -32,14 +32,6 @@ const MainFlowNavigator = ({customTheme}) => {
                 focused ? customTheme.colors.primary : customTheme.colors.text
               }
             />
-          ) : route.name === "ChatScreen" ? (
-            <Entypo
-              name="chat"
-              size={25}
-              color={
-                focused ? customTheme.colors.primary : customTheme.colors.text
-              }
-            />
           ) : (
             <MaterialCommunityIcons
               name="account"
@@ -65,14 +57,7 @@ const MainFlowNavigator = ({customTheme}) => {
           headerShown: false,
         }}
       />
-      <Tab.Screen
-        name="ChatScreen"
-        component={ChatScreen}
-        options={{
-          tabBarLabel: "Chats",
-          headerShown: false,
-        }}
-      />
+
       <Tab.Screen
         name="AccountFlow"
         component={AccountFlow}

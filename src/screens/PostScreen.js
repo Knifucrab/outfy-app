@@ -16,11 +16,12 @@ import ModifyPostContext from "../context/ModifyPostContext";
 const PostScreen = () => {
   const {colors} = useTheme();
   const route = useRoute();
-  const {post, user} = route.params;
-
-  const {fetchUserData} = useContext(ModifyPostContext);
+  const {post: initialPost, user} = route.params; // rename post to initialPost to avoid problems on the name of the state post
+  const {fetchUserData, likePost, unlikePost} = useContext(ModifyPostContext); // functions to modify the post that are inside the context.
+  const [post, setPost] = useState(initialPost); // this is the post that will have the data of the post and if we update this will rerender the postScreen with the new post data.
   const [commentsWithUserData, setCommentsWithUserData] = useState([]);
 
+  // this useEffect have the logic to create a valid object with all the comments and his data that the post have.
   useEffect(() => {
     const fetchCommentsUserData = async () => {
       const commentsWithUserData = await Promise.all(
@@ -34,8 +35,22 @@ const PostScreen = () => {
 
     fetchCommentsUserData();
   }, [post.comments, fetchUserData]);
-  // console.log(user);
 
+  const handleLikePost = async () => {
+    const updatedPost = await likePost(post._id);
+    if (updatedPost) {
+      setPost(updatedPost);
+    }
+  };
+
+  const handleUnlikePost = async () => {
+    const updatedPost = await unlikePost(post._id);
+    if (updatedPost) {
+      setPost(updatedPost);
+    }
+  };
+
+  // console.log(user);
   // console.log(post);
   return (
     <ScrollView
@@ -76,7 +91,7 @@ const PostScreen = () => {
           ]}
           size={18}
         >
-          {post.clothes.length}
+          {post.clothes ? post.clothes.length : null}
         </Badge>
       </View>
       <View style={{margin: 10}}>
@@ -84,6 +99,8 @@ const PostScreen = () => {
           post={post}
           userId={user._id}
           comments={commentsWithUserData}
+          onLike={handleLikePost}
+          onUnlike={handleUnlikePost}
         />
         <Text variant="titleMedium" style={{color: colors.text}}>
           {post.title}

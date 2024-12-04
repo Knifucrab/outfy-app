@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from "react";
 import {StyleSheet, ActivityIndicator} from "react-native";
 import {Button, Card, useTheme} from "react-native-paper";
 import ScreenLayout from "../components/ui/ScreenLayout";
-import {useNavigation} from "@react-navigation/native";
+import {useNavigation, useFocusEffect} from "@react-navigation/native";
 import {useAuth} from "../context/AuthContext";
 import {useDispatch, useSelector} from "react-redux";
 import {format} from "date-fns";
@@ -33,12 +33,13 @@ const AccountScreen = () => {
 
   const formattedBirthDate = format(new Date(user.birthDate), "MMMM d, yyyy");
 
-  //useEffect to fetch the user posts.
-  useEffect(() => {
-    fetchMyPosts();
-    setPostCreated(false);
-  }, [postCreated]);
-
+  // useFocusEffect to fetch the user posts every time the screen comes into focus.
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchMyPosts();
+      setPostCreated(false);
+    }, [])
+  );
   return (
     <ScreenLayout>
       <ProfileCard

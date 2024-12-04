@@ -13,7 +13,8 @@ export const ModifyPostProvider = ({children}) => {
 
     try {
       const response = await outfyApi.post(`posts/${postId}/like`);
-      console.log("Post liked successfully", response.data);
+      // console.log("Post liked successfully", response.data);
+      return response.data.data; // Return the updated post data
     } catch (error) {
       console.log("Error liking post", error);
     } finally {
@@ -24,10 +25,25 @@ export const ModifyPostProvider = ({children}) => {
   const fetchUserData = async (userId) => {
     try {
       const response = await outfyApi.get(`/users/${userId}`);
+
       return response.data;
     } catch (error) {
       console.log("Error fetching user data", error);
       return null;
+    }
+  };
+
+  const unlikePost = async (postId) => {
+    setLoadingModifyContext(true);
+
+    try {
+      const response = await outfyApi.post(`posts/${postId}/unlike`);
+      // console.log("Post unliked successfully", response.data);
+      return response.data.data; // Return the updated post data
+    } catch (error) {
+      console.log("Error unliking post", error);
+    } finally {
+      setLoadingModifyContext(false);
     }
   };
 
@@ -36,6 +52,7 @@ export const ModifyPostProvider = ({children}) => {
       value={{
         loadingModifyContext,
         likePost,
+        unlikePost,
         fetchUserData,
       }}
     >
