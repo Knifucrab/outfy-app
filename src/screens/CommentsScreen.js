@@ -45,7 +45,18 @@ const CommentsScreen = () => {
         fetchCommentsUserData(response.comments);
       };
       fetchLatestComments();
-    }, [post._id])
+
+      // Hide the tab bar when the screen is focused
+      navigation.getParent()?.setOptions({tabBarStyle: {display: "none"}});
+
+      // Show the tab bar when the screen is unfocused
+      return () =>
+        navigation.getParent()?.setOptions({
+          tabBarStyle: {
+            backgroundColor: colors.surface,
+          },
+        });
+    }, [post._id, navigation])
   );
 
   return (

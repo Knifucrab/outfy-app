@@ -67,7 +67,7 @@ export const ModifyPostProvider = ({children}) => {
 
     try {
       const response = await outfyApi.get(`posts/${postId}`);
-      console.log(response.data.data);
+      // console.log(response.data.data);
       return response.data.data;
     } catch (error) {
       console.log("error fetching post by id", error);

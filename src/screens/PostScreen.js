@@ -20,6 +20,7 @@ const PostScreen = () => {
   const {fetchUserData, likePost, unlikePost} = useContext(ModifyPostContext); // functions to modify the post that are inside the context.
   const [post, setPost] = useState(initialPost); // this is the post that will have the data of the post and if we update this will rerender the postScreen with the new post data.
   const [commentsWithUserData, setCommentsWithUserData] = useState([]);
+  const [showClothes, setShowClothes] = useState(false);
 
   // this useEffect have the logic to create a valid object with all the comments and his data that the post have.
   useEffect(() => {
@@ -73,12 +74,34 @@ const PostScreen = () => {
       </View>
       <View style={styles.imageContainer}>
         <Image source={{uri: post.imageUrl}} style={styles.image} />
+        {showClothes
+          ? post.clothes.map((cloth, index) => (
+              <View
+                key={index}
+                style={[
+                  styles.point,
+                  {
+                    left: cloth.x,
+                    top: cloth.y,
+                    backgroundColor: colors.tertiaryContainer,
+                  },
+                ]}
+              >
+                <Text
+                  variant="bodySmall"
+                  style={{color: colors.onTertiaryContainer, fontSize: 10}}
+                >
+                  {cloth.brand}
+                </Text>
+              </View>
+            ))
+          : null}
         <IconButton
           icon="tshirt-crew"
           iconColor={colors.primary}
           mode="contained-tonal"
           size={20}
-          // onPress={() => console.log("Pressed")}
+          onPress={() => setShowClothes(!showClothes)}
           style={styles.icon}
         />
         <Badge
@@ -141,6 +164,15 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 300,
     bottom: 30,
+  },
+  point: {
+    position: "absolute",
+    width: 70,
+    height: 20,
+    borderRadius: 10,
+
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
