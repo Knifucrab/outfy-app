@@ -47,6 +47,35 @@ export const ModifyPostProvider = ({children}) => {
     }
   };
 
+  const commentPost = async (postId, comment) => {
+    setLoadingModifyContext(true);
+    try {
+      const response = await outfyApi.post(`posts/${postId}/comment`, {
+        text: comment,
+      });
+      // console.log(response.data.comments);
+      return response.data.comments;
+    } catch (error) {
+      console.log("error sending comment", error);
+    } finally {
+      setLoadingModifyContext(false);
+    }
+  };
+
+  const fetchPostByID = async (postId) => {
+    setLoadingModifyContext(true);
+
+    try {
+      const response = await outfyApi.get(`posts/${postId}`);
+      console.log(response.data.data);
+      return response.data.data;
+    } catch (error) {
+      console.log("error fetching post by id", error);
+    } finally {
+      setLoadingModifyContext(false);
+    }
+  };
+
   return (
     <ModifyPostContext.Provider
       value={{
@@ -54,6 +83,8 @@ export const ModifyPostProvider = ({children}) => {
         likePost,
         unlikePost,
         fetchUserData,
+        commentPost,
+        fetchPostByID,
       }}
     >
       {children}

@@ -45,6 +45,7 @@ const AccountFlow = () => {
           headerTitleStyle: {
             fontWeight: "bold",
           },
+          tabBarStyle: {display: "none"},
         }}
       />
     </Stack.Navigator>
