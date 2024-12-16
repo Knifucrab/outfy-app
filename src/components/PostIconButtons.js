@@ -54,7 +54,11 @@ const PostIconButtons = ({post, userId, comments, onLike, onUnlike}) => {
           size={30}
           style={{margin: 0}}
           onPress={() =>
-            navigation.navigate("CommentsScreen", {comments, post})
+            navigation.navigate(
+              "CommentsScreen",
+
+              {comments, post}
+            )
           }
         />
         <Text variant="titleMedium" style={{color: colors.text, marginLeft: 5}}>

@@ -1,9 +1,7 @@
 import React from "react";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import HomeScreen from "../screens/HomeScreen";
-import ChatScreen from "../screens/ChatScreen";
-import AccountScreen from "../screens/AccountScreen";
 import CreatePostFlow from "../navigation/CreatePostFlow";
+import HomeFlow from "./HomeFlow";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -16,7 +14,7 @@ const MainFlowNavigator = ({customTheme}) => {
     <Tab.Navigator
       screenOptions={({route}) => ({
         tabBarIcon: ({focused}) => {
-          return route.name === "HomeScreen" ? (
+          return route.name === "HomeFlow" ? (
             <Entypo
               name="home"
               size={25}
@@ -50,8 +48,8 @@ const MainFlowNavigator = ({customTheme}) => {
       })}
     >
       <Tab.Screen
-        name="HomeScreen"
-        component={HomeScreen}
+        name="HomeFlow"
+        component={HomeFlow}
         options={{
           tabBarLabel: "Home",
           headerShown: false,
